@@ -6,10 +6,10 @@
     android:orientation="vertical"
     android:gravity="center">
 
-    <TextClock
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </TextClock>
+        android:layout_height="wrap_content"
+        android:id="@+id/countdown_display"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,14 +38,13 @@
             android:layout_margin="3dp"
             />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ToggleButton
             android:id="@+id/timer_toggle"
-            android:src="@drawable/timer_cancel_outline"
-            android:contentDescription="@string/cancel_timer"
+            style="@style/toggleButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_margin="3dp"
-            />
+            android:background="@drawable/ic_toggle_bg" />
 
     </LinearLayout>
 </LinearLayout>

@@ -4,12 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import android.widget.ToggleButton
+import android.os.CountDownTimer
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var trueButton: Button
     private lateinit var falseButton: Button
+    private lateinit var timerToggle: ToggleButton
+    private lateinit var countdownDisplay: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         trueButton = findViewById(R.id.true_button)
         falseButton = findViewById(R.id.false_button)
+        timerToggle = findViewById(R.id.timer_toggle)
+        countdownDisplay = findViewById(R.id.countdown_display)
+
+        // init countdown with default timer
+        countdownDisplay.setText("Hello")
 
         trueButton.setOnClickListener { view: View ->
             // trigger a toast
@@ -35,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
 
-        // start the countdown timer
+        // timer toggle logic
+        timerToggle.setOnClickListener{
+            // toggle timer pause play
+            // display toast
+        }
+
     }
 }

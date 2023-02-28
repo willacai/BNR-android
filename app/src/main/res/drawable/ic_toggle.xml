@@ -1,9 +1,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_checked="false"
+    <item android:state_checked="true"
         android:drawable="@drawable/timer_cancel_outline" />
 
-    <item android:state_checked="true"
+    <item android:state_checked="false"
         android:drawable="@drawable/timer_play_outline" />
 
 </selector>

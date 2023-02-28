@@ -1,13 +1,15 @@
 package com.example.myapplication
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.ToggleButton
-import android.os.CountDownTimer
+import androidx.appcompat.app.AppCompatActivity
+import java.lang.String
+import kotlin.Long
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var falseButton: Button
     private lateinit var timerToggle: ToggleButton
     private lateinit var countdownDisplay: TextView
+    private lateinit var timerObject: CountDownTimer
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +28,19 @@ class MainActivity : AppCompatActivity() {
         falseButton = findViewById(R.id.false_button)
         timerToggle = findViewById(R.id.timer_toggle)
         countdownDisplay = findViewById(R.id.countdown_display)
+        timerObject = object : CountDownTimer(30000, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                countdownDisplay.setText(String.valueOf(millisUntilFinished/1000))
+            }
+
+            override fun onFinish() {
+                countdownDisplay.setText("Time's up!")
+            }
+        }
 
         // init countdown with default timer
-        countdownDisplay.setText("Hello")
+        countdownDisplay.setText("Timer")
 
         trueButton.setOnClickListener { view: View ->
             // trigger a toast
@@ -46,10 +60,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         // timer toggle logic
-        timerToggle.setOnClickListener{
-            // toggle timer pause play
-            // display toast
+        timerToggle.setOnCheckedChangeListener{ _, isChecked ->
+            if (isChecked){
+                timerObject.start()
+                Toast.makeText(this, R.string.start_timer_toast, Toast.LENGTH_SHORT).show()
+            }
+            else {
+                timerObject.cancel()
+                countdownDisplay.append(" - Paused")
+                Toast.makeText(this, R.string.stop_timer_toast, Toast.LENGTH_SHORT).show()
+            }
+
         }
+
 
     }
 }

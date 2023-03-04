@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import layout.Question
 
 class MainActivity : AppCompatActivity() {
@@ -30,20 +32,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.trueButton.setOnClickListener { view: View ->
-            // trigger a toast
-            Toast.makeText(
-                this, // gets add'l info about where the toast is showing
-                R.string.correct_toast,
-                Toast.LENGTH_SHORT
-            ).show()
+            checkAnswer(true)
         }
 
         binding.falseButton.setOnClickListener {
-            Toast.makeText(
-                this, // gets add'l info about where the toast is showing
-                R.string.incorrect_toast,
-                Toast.LENGTH_SHORT
-            ).show()
+            checkAnswer(false)
         }
 
         binding.nextButton.setOnClickListener {
@@ -58,5 +51,15 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion(){
         val questionTextResId =  questionBank[currentIndex].textResId // get reference
         binding.questionTextView.setText(questionTextResId) // use reference
+    }
+
+    private fun checkAnswer(userAnswer: Boolean){
+        val currAnswer = questionBank[currentIndex].answer
+        val messageResId = if (userAnswer == currAnswer){
+            R.string.correct_toast
+        }
+        else { R.string.incorrect_toast }
+
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">My Application</string>
     <string name="true_button">True</string>
-    <string name="question_text">Canberra is the capitol of Australia</string>
     <string name="false_button">False</string>
     <string name="correct_toast">Yesseroo</string>
     <string name="incorrect_toast">Nope</string>
     <string name="stop_timer_toast">Stopping timer</string>
     <string name="start_timer_toast">Starting timer</string>
+    <string name="next_button">Next</string>
+    <string name="q_oceans">Oceans are big?</string>
+    <string name="q_mideast">Turkey in mideast?</string>
+    <string name="q_africa">Africa hot?</string>
+    <string name="q_asia">Asia in West Hem?</string>
+    <string name="q_australia">Canberra is the capitol of Australia</string>
 </resources>

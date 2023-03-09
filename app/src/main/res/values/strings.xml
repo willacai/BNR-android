@@ -11,4 +11,7 @@
     <string name="q_mideast">Turkey in mideast?</string>
     <string name="q_africa">Africa hot?</string>
     <string name="q_asia">Asia in West Hem?</string>
+
+    <string name="answered_text">You already answered this question! Click the Next button to proceed.</string>
+    <string name="end_of_quiz">Congrats, you completed this quiz!</string>
 </resources>

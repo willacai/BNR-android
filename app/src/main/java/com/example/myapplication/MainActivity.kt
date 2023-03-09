@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
@@ -11,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import layout.Question
 
+private const val TAG = "mainActivity" // why do we add it before the main class def?
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate(Bundle?) called")
 
         // setContentView(R.layout.activity_main) // inflates activity_main view, instantiates vars defined there
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -47,8 +50,34 @@ class MainActivity : AppCompatActivity() {
         updateQuestion()
 
     }
+    override fun onStart(){
+        super.onStart() // calling superclass implementation; i.e. "original, AND..."
+        Log.d(TAG, "onStart() called")
+    }
 
+    override fun onResume(){
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
+    }
+
+    /* helper functions */
     private fun updateQuestion(){
+        Log.d(TAG, "Current q index: $currentIndex")
         val questionTextResId =  questionBank[currentIndex].textResId // get reference
         binding.questionTextView.setText(questionTextResId) // use reference
     }

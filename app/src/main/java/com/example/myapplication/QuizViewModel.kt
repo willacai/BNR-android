@@ -2,20 +2,25 @@ package com.example.myapplication
 
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import layout.Question
 
 private const val TAG = "QuizViewModel"
+const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
 
-class QuizViewModel : ViewModel(){
+class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(){
     init {
         Log.d(TAG, "ViewModel instance created")
     }
 
     var answered: Boolean = false
     var numCorrect: Int = 0 // Challenge 3.2: Give a percentage at end of quiz
-    private var currentIndex: Int = 0
     private var quizEnd: Boolean = false
+
+    private var currentIndex: Int
+        get() = savedStateHandle.get(CURRENT_INDEX_KEY) ?: 0
+        set(value) = savedStateHandle.set(CURRENT_INDEX_KEY, value)
 
     private val questionBank = listOf(
         Question(R.string.q_australia, true),

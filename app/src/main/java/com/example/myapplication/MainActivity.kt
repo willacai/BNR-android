@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
@@ -17,18 +18,9 @@ import layout.Question
 private const val TAG = "mainActivity" // why do we add it before the main class def?
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private var currentIndex: Int = 0
-    private var answered: Boolean = false
-    private var numCorrect: Int = 0 // Challenge 3.2: Give a percentage at end of quiz
+    private val quizViewModel: QuizViewModel by viewModels()
 
-    private val questionBank = listOf(
-        Question(R.string.q_australia, true),
-        Question(R.string.q_oceans, true),
-        Question(R.string.q_africa, true),
-        Question(R.string.q_mideast, true),
-        Question(R.string.q_asia, false)
-    )
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,29 +30,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        Log.d(TAG, "Got a QuizViewModel: $quizViewModel") // simult. initialized and logged; "scoped to activity"
+
         /* Setup UI functions */
         binding.trueButton.setOnClickListener { view: View ->
-            if (!answered){checkAnswer(true)}
+            if (!quizViewModel.answered){checkAnswer(true)}
             else { Toast.makeText(this, R.string.answered_text, Toast.LENGTH_SHORT).show() }
         }
 
         binding.falseButton.setOnClickListener {
-            if (!answered){checkAnswer(false)}
+            if (!quizViewModel.answered){checkAnswer(false)}
             else { Toast.makeText(this, R.string.answered_text, Toast.LENGTH_SHORT).show() }
         }
 
         binding.nextButton.setOnClickListener {
-            if((currentIndex + 1) >= questionBank.size) {
+            if(!quizViewModel.quizStatus){
+                quizViewModel.moveToNext()
+                updateQuestion()
+            }
+            else {
                 // Challenge 3.2: do end of quiz stuff
                 // append correct % to string
-                val resultsString = getString(R.string.end_of_quiz) +  "\nYour result: $numCorrect correct out of ${questionBank.size}"
+                val resultsString = getString(R.string.end_of_quiz) +  "\nYour result: ${quizViewModel.numCorrect} correct out of ${quizViewModel.quizSize}"
                 Toast.makeText(this, resultsString, Toast.LENGTH_SHORT).show() // C3.2 temp toast; next steps make it a text view and disable next.
                 // this.addContentView(new TextView())
             }
-            else {
-                currentIndex++ // Challenge 3.2: no wrap
-                updateQuestion()
-            }
+
         }
 
         /* Initializing app */
@@ -94,25 +89,24 @@ class MainActivity : AppCompatActivity() {
 
     /* helper functions */
     private fun updateQuestion(){
-        val questionTextResId =  questionBank[currentIndex].textResId // get reference
-        answered = false; // reset `answered` state
-        Log.d(TAG, "Updating question text and answered var: $currentIndex, $answered")
+        val questionTextResId =  quizViewModel.currentQuestionText
+        quizViewModel.answered = false; // reset `answered` state
         binding.questionTextView.setText(questionTextResId)
     }
 
     private fun checkAnswer(userAnswer: Boolean){
-        val currAnswer = questionBank[currentIndex].answer
+        val currAnswer = quizViewModel.currentQuestionAnswer
         val messageResId = if (userAnswer == currAnswer){
             R.string.correct_toast
         }
         else { R.string.incorrect_toast }
 
-        if (userAnswer == currAnswer) numCorrect++ // C3.2
+        if (userAnswer == currAnswer) quizViewModel.numCorrect++ // C3.2
 
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
 
         // Challenge 3.1: Preventing Repeat Answers
         // set state to `answered`
-        answered = true
+        quizViewModel.answered = true
     }
 }

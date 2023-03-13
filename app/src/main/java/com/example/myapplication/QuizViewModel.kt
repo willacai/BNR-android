@@ -10,10 +10,6 @@ private const val TAG = "QuizViewModel"
 const val CURRENT_INDEX_KEY = "CURRENT_INDEX_KEY"
 
 class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(){
-    init {
-        Log.d(TAG, "ViewModel instance created")
-    }
-
     var answered: Boolean = false
     var numCorrect: Int = 0 // Challenge 3.2: Give a percentage at end of quiz
     private var quizEnd: Boolean = false
@@ -49,10 +45,5 @@ class QuizViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel(
         else {
             currentIndex++ // Challenge 3.2: no wrap
         }
-    }
-
-    override fun onCleared(){
-        super.onCleared()
-        Log.d(TAG, "onCleared() called; ViewModel instance about to be destroyed")
     }
 }
